@@ -1,0 +1,143 @@
+/* Full-page background */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("../images/login.png");  /* Path relative to css folder */
+    background-size: contain;        /* Shows full image without cropping */
+    background-repeat: no-repeat;   /* Prevent repeating if smaller than screen */
+    background-position: center;    /* Center the image */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login form style */
+form {
+    position: absolute;       /* allows placing it anywhere on the page */
+    top: 30px;                /* distance from the top */
+    left: 50%;                /* start at horizontal center */
+    transform: translateX(-50%);  /* truly center it horizontally */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 80px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+
+input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4b0082; /* dark purple */
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    
+    display: block;       /* makes margin work for alignment */
+    margin-left: auto;    /* pushes it to the right */
+}
+
+
+button:hover {
+    background-color: #6a1b9a; /* lighter purple on hover */
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+
+/* Background for donor page */
+body.donor-page {
+    background-image: url("../images/donor_page.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+}
+
+/* Top bar: logout top right */
+.top-bar {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+}
+
+.top-bar a.logout {
+    text-decoration: none;
+    color: #222;
+    font-weight: bold;
+}
+
+
+
+/* Container for panels (left & right) */
+.donor-container {
+    position: relative;
+    height: calc(100vh - 150px); /* leave space for header */
+    width: 100%;                 /* full width to let panels float */
+}
+
+/* Current inventory (left) */
+.inventory-list {
+    position: absolute;
+    left: 40px;                  
+    top: 50%;
+    transform: translateY(-50%);
+    width: 350px;
+    height: 70%;                /* make it 70% of the viewport height */
+    min-height: 400px;          /* optional minimum height */
+    background: rgba(255,255,255,0.8);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;           /* scroll if content overflows */
+}
+
+
+/* Add inventory (right) */
+.add-inventory {
+    position: absolute;
+    right: 30px;                 /* distance from right edge */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 350px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* Header stays top center */
+header {
+    width: 100%;               /* take full width */
+    position: absolute;         /* stick it at the top */
+    top: 130px;                  /* distance from top */
+    left: 0;                    /* start from left */
+    text-align: center;         /* center the text */
+    z-index: 100;               /* make sure it’s above background */
+}
+
+header h1 {
+    margin: 0;                  /* remove default margins */
+    color: #222;
+    font-size: 36px;
+}
+
