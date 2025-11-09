@@ -1,0 +1,129 @@
+/* Full-page background */
+body.admin-page {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("../images/admin_bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Top Bar */
+.top-bar {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+}
+
+.top-bar .welcome {
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.top-bar a.logout {
+    text-decoration: none;
+    background-color: #4b0082;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.top-bar a.logout:hover {
+    background-color: #6a1b9a;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-top: 100px;
+}
+
+header h1 {
+    font-size: 36px;
+    color: #4b0082;
+}
+
+/* Container */
+.admin-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    margin-top: 40px;
+}
+
+/* Left: User List */
+.user-list, .inventory-list {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    width: 45%;
+    height: 70vh;
+    overflow-y: auto;
+}
+
+h2, h3 {
+    color: #4b0082;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+table th {
+    background-color: #f0e6ff;
+    color: #4b0082;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4b0082;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #6a1b9a;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #b30000;
+}
+
+.delete-btn:hover {
+    background-color: #e60000;
+}
+
+/* Scrollbars */
+.user-list::-webkit-scrollbar, .inventory-list::-webkit-scrollbar {
+    width: 8px;
+}
+.user-list::-webkit-scrollbar-thumb, .inventory-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+}
