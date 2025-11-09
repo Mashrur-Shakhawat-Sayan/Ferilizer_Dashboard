@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+  <style>
+    .status.not-allotted { color: red; font-weight: bold; }
+    .status.allotted { color: orange; font-weight: bold; }
+    .status.received { color: green; font-weight: bold; }
+    table { width: 90%; margin: 15px auto; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #4b0082; color: white; }
+    button { padding: 5px 10px; }
+    .top-bar { display: flex; justify-content: space-between; padding: 10px; background: #4b0082; color: white; }
+    .top-bar a { color: white; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body class="admin-page">
+
+  <div class="top-bar">
+    <span>Welcome, {{ session['user'] }}</span>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+
+  <header>
+    <h1 style="text-align:center;">Admin Dashboard</h1>
+  </header>
+
+  <div class="admin-container">
+
+    <!-- User Registration at Top -->
+    <div class="user-list">
+      <h2>Register New User</h2>
+      <form method="POST" action="{{ url_for('admin_dashboard') }}">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <select name="role" required>
+          <option value="user">User</option>
+          <option value="donor">Donor</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Add User</button>
+      </form>
+      <hr>
+      <h2>Registered Users</h2>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Username</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Current Inventory / Orders -->
+    <div class="inventory-list">
+      <h2>Current Inventory / Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Quantity (kg)</th>
+            <th>Status</th>
+            <th>Allot</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+            {# Only consider active allotments (not dropped) #}
+            {% set active_allots = allotments
+               |selectattr('item_id', 'equalto', item.id)
+               |selectattr('status', 'in', ['Allotted', 'Received'])
+               |list %}
+
+            {% if item.quantity > 0 or active_allots|length > 0 %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>
+                {% if active_allots|length > 0 %}
+                  0 kg
+                {% else %}
+                  {{ item.quantity }} kg
+                {% endif %}
+              </td>
+              <td>
+                {% if active_allots|length == 0 %}
+                  <span class="status not-allotted">Not Allotted</span>
+                {% else %}
+                  {% for a in active_allots %}
+                    <span class="status {{ a.status|lower }}">{{ a.status }} to {{ a.user.username }}</span><br>
+                  {% endfor %}
+                {% endif %}
+              </td>
+              <td>
+                {% if active_allots|length == 0 and item.quantity > 0 %}
+                  <form method="POST" action="{{ url_for('allot_item') }}">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <select name="user_id" required>
+                      {% for user in users if user.role == 'user' %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                      {% endfor %}
+                    </select>
+                    <button type="submit">Allot Full Quantity</button>
+                  </form>
+                {% else %}
+                  <button disabled>Allotted</button>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Previous Orders / Dropped Items -->
+      <h2>Previous Orders (Dropped)</h2>
+      <table>
+        <thead>
+          <tr><th>Item</th><th>User</th><th>Quantity</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for a in allotments if a.status == 'Dropped' %}
+          <tr>
+            <td>{{ a.item.name }}</td>
+            <td>{{ a.user.username }}</td>
+            <td>{{ a.quantity }}</td>
+            <td><span class="status not-allotted">{{ a.status }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
